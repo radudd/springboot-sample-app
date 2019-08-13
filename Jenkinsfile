@@ -27,7 +27,7 @@ node("maven") {
   stage('Running tests') {
          echo "Running Unit Tests"
          sh "${mvnCmd} test" 
-         sh "mkdir deployment && mv target/${appName}.jar deployment/"
+         sh "mkdir deployments || echo ok && mv target/${appName}.jar deployments/"
   }
   
 
