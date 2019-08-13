@@ -49,7 +49,7 @@ node("maven") {
               openshift.newBuild("--name=${appName}-build", "--image-stream=${builderName}", "--binary=true")
               sleep 2
             }
-            openshift.selector("bc","${appName}-build").startBuild("--from-file=target/${appName}.jar")
+            openshift.selector("bc","${appName}-build").startBuild("--from-dir=''")
             
             def buildConfig = openshift.selector("bc","${appName}").object()
             def buildVersion = buildConfig.status.lastVersion
