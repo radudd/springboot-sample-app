@@ -27,7 +27,7 @@ node("maven") {
   stage('Running tests') {
          echo "Running Unit Tests"
          sh "${mvnCmd} test" 
-         sh "mkdir deployments || echo ok && mv target/${appName}.jar deployments/"
+         sh "mkdir -p ocp/deployments || echo ok && mv target/${appName}.jar ocp/deployments"
   }
   
 
@@ -49,7 +49,7 @@ node("maven") {
               openshift.newBuild("--name=${appName}-build", "--image-stream=${builderName}", "--binary=true")
               sleep 2
             }
-            openshift.selector("bc","${appName}-build").startBuild("--from-dir='.'")
+            openshift.selector("bc","${appName}-build").startBuild("--from-dir=./ocp")
             
             def buildConfig = openshift.selector("bc","${appName}").object()
             def buildVersion = buildConfig.status.lastVersion
