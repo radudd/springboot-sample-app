@@ -42,7 +42,7 @@ node("maven") {
     echo "Building OpenShift container image tasks:${devTag}"
     openshift.withCluster() {
         openshift.withProject("${devProject}") {
-            def bcSelector = openshift.selector("bc", "${appName}")
+            def bcSelector = openshift.selector("bc", "${appName}-build")
             def bcExists = bcSelector.exists()
             if (!bcExists) {
               openshift.newBuild("--name=${appName}-build", "--image-stream=${builderName}", "--binary=true")
