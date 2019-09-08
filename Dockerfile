@@ -10,4 +10,5 @@ RUN mvn clean package -DskipTests
 FROM quay.io/sshaaf/rhel7-jre8-mpdemo:latest
 WORKDIR /
 COPY --from=0 /work/target/springboot-sample-app.jar  /app/
+USER 1001
 CMD [ "/app/run-java.sh" ]
