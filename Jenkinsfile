@@ -39,9 +39,9 @@ node("maven") {
 
   // Build the OpenShift Image in OpenShift and tag it.
   stage('Build and Tag OpenShift Image') {
-       sh "oc start-build ${appName} --from-dir=./ocp"  
+ /*      sh "oc start-build ${appName} --from-dir=./ocp"  
   }
- /* 
+ */ 
     echo "Building OpenShift container image tasks:${devTag}"
     openshift.withCluster() {
         openshift.withProject("${devProject}") {
@@ -67,6 +67,7 @@ node("maven") {
     	 }
       }
     }
+  /*
 
   // Deploy the built image to the Development Environment.
   stage('Deploy to Dev') {
@@ -143,7 +144,7 @@ node("maven") {
         }
     }
   }
-  */
+*/
 }
 
 // Convenience Functions to read version from the pom.xml
