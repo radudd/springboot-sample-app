@@ -44,22 +44,22 @@ node("maven") {
     openshift.withCluster() {
         openshift.withProject("${devProject}") {
             try {
-              openshift.newBuild("--name=${appName}-build", "--image-stream=${builderName}", "--binary=true")
+              openshift.newBuild("--name=${appName}", "--image-stream=${builderName}", "--binary=true")
             } catch (e) {
-               echo "${e}"
+               echo "${e.err}"
             }
-            openshift.selector("bc","${appName}-build").startBuild("--from-dir=./ocp")
+            openshift.selector("bc","${appName}").startBuild("--from-dir=./ocp")
             
             def buildConfig = openshift.selector("bc","${appName}").object()
             def buildVersion = buildConfig.status.lastVersion
-            def build = openshift.selector("build", "${appName}-build-${buildVersion}").object()
+            def build = openshift.selector("build", "${appName}-${buildVersion}").object()
             echo "Waiting for Build to complete"
             while (build.status.phase != "Complete"){
                 if (build.status.phase == "Failed"){
                     error("Build failed")
                 }
                 sleep 5
-                build = openshift.selector("build", "${appName}-build-${buildVersion}").object()
+                build = openshift.selector("build", "${appName}-${buildVersion}").object()
                 echo "Current status: ${build.status.phase}"
             }
             openshift.tag("${appName}:latest","${appName}:${devTag}")
