@@ -39,7 +39,7 @@ node("maven") {
 
   // Build the OpenShift Image in OpenShift and tag it.
   stage('Build and Tag OpenShift Image') {
-    sh "oc start-build ${appName}" --from-dir=./ocp"
+    sh "oc start-build ${appName} --from-dir=./ocp"
   }
 /*
     echo "Building OpenShift container image tasks:${devTag}"
