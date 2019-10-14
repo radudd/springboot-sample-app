@@ -48,8 +48,9 @@ node("maven") {
             } catch (e) {
                echo "${e.err}"
             }
-            openshift.selector("bc","${appName}").startBuild("--from-dir=./ocp")
-            
+            //openshift.selector("bc","${appName}").startBuild("--from-dir=./ocp")
+            sh "oc start-build ${appName} --from-dir=./ocp"  
+          
             def buildConfig = openshift.selector("bc","${appName}").object()
             def buildVersion = buildConfig.status.lastVersion
             def build = openshift.selector("build", "${appName}-${buildVersion}").object()
