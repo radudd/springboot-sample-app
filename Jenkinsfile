@@ -43,9 +43,10 @@ node("maven") {
     echo "Building OpenShift container image tasks:${devTag}"
     openshift.withCluster() {
         openshift.withProject("${devProject}") {
-           if (!openshift.selector("bc", "${appName}-build").exists()) {
+            try {
               openshift.newBuild("--name=${appName}-build", "--image-stream=${builderName}", "--binary=true")
-              sleep 2
+            } catch (e) {
+               echo "${e}"
             }
             openshift.selector("bc","${appName}-build").startBuild("--from-dir=./ocp")
             
@@ -65,7 +66,7 @@ node("maven") {
     	 }
       }
     }
-
+/*
   // Deploy the built image to the Development Environment.
   stage('Deploy to Dev') {
     echo "Deploying container image to Development Project"
@@ -141,6 +142,7 @@ node("maven") {
         }
     }
   }
+  */
 }
 
 // Convenience Functions to read version from the pom.xml
