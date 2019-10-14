@@ -9,7 +9,7 @@ node("maven") {
   // <build>
   //  <finalName>springboot-sample-app</finalName>
   def ocpDockerRegistry = "docker-registry.default.svc:5000"
-  def builderName = "redhat-openjdk18-openshift"
+  def builderName = "redhat-openjdk18-openshift:1.5"
   def devTag  = "dev-" + currentBuild.number
   def prodTag = "prod"
 
