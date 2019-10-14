@@ -2,8 +2,8 @@
 
 node("maven") {
   def mvnCmd = "mvn"
-  def devProject = "tasks-1"
-  def prodProject = "tasks-2"
+  def devProject = "dev-project"
+  def prodProject = "prod-project"
   def appName = "springboot-sample-app"
   // pom.xml 
   // <build>
