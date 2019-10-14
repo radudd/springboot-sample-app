@@ -46,7 +46,7 @@ node("maven") {
             try {
               openshift.newBuild("--name=${appName}", "--image-stream=${builderName}", "--binary=true")
             } catch (e) {
-               echo "${e.err}"
+              echo "Build ${appName} exists"
             }
             openshift.selector("bc","${appName}").startBuild("--from-dir=./ocp")
             
