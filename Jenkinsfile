@@ -19,7 +19,7 @@ node("maven") {
 
   stage('Build war') {
         echo "Building version ${devTag}"
-        sh "${mvnCmd} clean package -DskipTests"
+        sh "${mvnCmd} clean package -DskipTests -Djar.finalName=app"
   }
 
   // The next two stages should run in parallel
@@ -27,7 +27,7 @@ node("maven") {
   stage('Running tests') {
          echo "Running Unit Tests"
          sh "${mvnCmd} test" 
-         sh "mkdir -p ocp/deployments || echo ok && mv target/${appName}.jar ocp/deployments"
+         sh "mkdir -p ocp/deployments || echo ok && mv target/app.jar ocp/deployments"
   }
   
 
@@ -50,7 +50,7 @@ node("maven") {
             } catch (e) {
               echo "Build ${appName} exists"
             }
-            openshift.selector("bc","${appName}").startBuild("--from-dir=./ocp")
+            openshift.selector("bc","${appName}").startBuild("--from-file=./ocp/app.jar")
             
             def buildConfig = openshift.selector("bc","${appName}").object()
             def buildVersion = buildConfig.status.lastVersion
