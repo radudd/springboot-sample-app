@@ -5,6 +5,7 @@ node("maven") {
   def devProject = "${DEV_PROJECT}"
   def prodProject = "${PROD_PROJECT}"
   def appName = "springboot-app"
+  def repoName = "springboot-sample-app"
   // pom.xml 
   // <build>
   //  <finalName>springboot-sample-app</finalName>
@@ -50,7 +51,7 @@ node("maven") {
             } catch (e) {
               echo "Build ${appName} exists"
             }
-            openshift.selector("bc","${appName}").startBuild("--from-file=./ocp/app.jar")
+            openshift.selector("bc","${appName}").startBuild("--from-dir=./ocp")
             
             def buildConfig = openshift.selector("bc","${appName}").object()
             def buildVersion = buildConfig.status.lastVersion
