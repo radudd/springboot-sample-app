@@ -29,7 +29,6 @@ node("maven") {
   stage('Running tests') {
          echo "Running Unit Tests"
          sh "${mvnCmd} test" 
-         sh "mkdir -p ocp/deployments || echo ok && mv target/app.jar ocp/deployments"
   }
   
 
@@ -47,12 +46,12 @@ node("maven") {
     echo "Building OpenShift container image tasks:${devTag}"
     openshift.withCluster() {
         openshift.withProject("${devProject}") {
-            try {
-              openshift.newBuild("--name=${appName}", "--image-stream=${builderName}", "--binary=true")
-            } catch (e) {
-              echo "Build ${appName} exists"
-            }
-            openshift.selector("bc","${appName}").startBuild("--from-dir=./ocp")
+            //try {
+            //  openshift.newBuild("--name=${appName}", "--image-stream=${builderName}", "--binary=true")
+            //} catch (e) {
+            //  echo "Build ${appName} exists"
+            //}
+            openshift.selector("bc","${appName}").startBuild("--from-file=target/app.jar")
             
             def buildConfig = openshift.selector("bc","${appName}").object()
             def buildVersion = buildConfig.status.lastVersion
