@@ -5,7 +5,7 @@ node("maven") {
   //def devProject = "${DEV_PROJECT}"
   //def prodProject = "${PROD_PROJECT}"
   def devProject = "jenkins"
-  def devProject = "jenkins"
+  def prodProject = "jenkins"
   def appName = "springboot-app"
   // pom.xml 
   // <build>
