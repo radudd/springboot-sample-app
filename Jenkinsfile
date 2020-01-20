@@ -1,5 +1,13 @@
 #!groovy
 
+/* TO DO IN ADVANCE
+oc new-build --binary=true --name="myapp" --image-stream=redhat-openjdk18-openshift:1.5 
+oc new-app myapp:0.0-0 --name=myapp --allow-missing-imagestream-tags=true 
+oc set triggers dc/myapp --remove-all 
+oc expose dc myapp --port 8080
+oc expose svc myapp 
+*/
+
 node("maven") {
   def mvnCmd = "mvn"
   //def devProject = "${DEV_PROJECT}"
@@ -38,17 +46,9 @@ node("maven") {
 
   // Build the OpenShift Image in OpenShift and tag it.
   stage('Build and Tag OpenShift Image') {
-  //  sh "oc start-build ${appName} --from-dir=./ocp -n ${devProject}"
-  //}
-
     echo "Building OpenShift container image tasks:${devTag}"
     openshift.withCluster() {
         openshift.withProject("${devProject}") {
-            //try {
-            //  openshift.newBuild("--name=${appName}", "--image-stream=${builderName}", "--binary=true")
-            //} catch (e) {
-            //  echo "Build ${appName} exists"
-            //}
             openshift.selector("bc","${appName}").startBuild("--from-file=target/app.jar")
             
             def buildConfig = openshift.selector("bc","${appName}").object()
