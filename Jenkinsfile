@@ -7,10 +7,7 @@ node("maven") {
   def devProject = "ws-kapsch"
   def prodProject = "ws-kapsch"
   def appName = "myapp"
-  // pom.xml 
-  // <build>
-  //  <finalName>springboot-sample-app</finalName>
-  def ocpDockerRegistry = "docker-registry.default.svc:5000"
+  def ocpDockerRegistry = "image-registry.openshift-image-registry.svc.cluster.local:5000"
   def builderName = "redhat-openjdk18-openshift:1.5"
   def devTag  = "dev-" + currentBuild.number
   def prodTag = "prod"
@@ -32,11 +29,12 @@ node("maven") {
   }
   
 
-  // Publish the built war file to Nexus
-  //stage('Publish to Nexus') {
-  //  echo "Publish to Nexus"
-  //  sh "${mvnCmd} deploy -DskipTests=true -DaltDeploymentRepository=nexus::default::${nexusUrl}/repository/releases"
-  //}
+  /* Publish the built war file to Nexus
+  stage('Publish to Nexus') {
+    echo "Publish to Nexus"
+    sh "${mvnCmd} deploy -DskipTests=true -DaltDeploymentRepository=nexus::default::${nexusUrl}/repository/releases"
+  }
+  */
 
   // Build the OpenShift Image in OpenShift and tag it.
   stage('Build and Tag OpenShift Image') {
