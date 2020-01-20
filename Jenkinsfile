@@ -4,9 +4,9 @@ node("maven") {
   def mvnCmd = "mvn"
   //def devProject = "${DEV_PROJECT}"
   //def prodProject = "${PROD_PROJECT}"
-  def devProject = "jenkins"
-  def prodProject = "jenkins"
-  def appName = "springboot-app"
+  def devProject = "ws-kapsch"
+  def prodProject = "ws-kapsch"
+  def appName = "myapp"
   // pom.xml 
   // <build>
   //  <finalName>springboot-sample-app</finalName>
@@ -70,7 +70,7 @@ node("maven") {
       }
     }
 
-/*
+
 
   // Deploy the built image to the Development Environment.
   stage('Deploy to Dev') {
@@ -95,6 +95,7 @@ node("maven") {
       }
     }
   }
+  /*
 
   // Blue/Green Deployment into Production
   // -------------------------------------
